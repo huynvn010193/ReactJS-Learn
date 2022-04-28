@@ -1,20 +1,25 @@
 import React from 'react';
 import { useParams } from 'react-router-dom'
-import { getOneProduct } from '../api/productAPI';
+import { getData } from '../api/productAPI';
 import ProductInfo from '../components/ProductInfo';
-import useQuery from '../hooks/useQuery';
+// import useQuery from '../hooks/useQuery';
+
+import { useQuery } from 'react-query';
 
 
 const ProductDetail = () => {
-  const { id } = useParams()
-  const url = getOneProduct(id)
-  const { data, loading, error } = useQuery(url)
+  const { id } = useParams();
+  // const url = getOneProduct(id);
+
+  // const { data, loading, error } = useQuery(url);
+  const key = `/products/${id}`;
+  const { data, isLoading, error } = useQuery(key, getData);
 
   return <main>
     <ProductInfo 
-    product={data} 
-    loading={loading} 
-    error={error}  
+    product={data}
+    loading={isLoading}
+    error={error} 
     />
   </main>;
 };
