@@ -1,7 +1,7 @@
 import React from 'react';
 import ProductCard from './ProductCard';
 
-const Products = React.memo(({ data, loading, error }) => {
+const Products = ({ data, loading, error }) => {
   
   if(error) return <h2>{error}</h2>;
   return <section>
@@ -15,6 +15,6 @@ const Products = React.memo(({ data, loading, error }) => {
     
     { loading && <h2 style={{textAlign: 'center'}}>Loading...</h2> }
   </section>;
-});
+};
 
 export default Products;

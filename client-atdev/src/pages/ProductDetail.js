@@ -16,11 +16,15 @@ const ProductDetail = () => {
   const { data, isLoading, error } = useQuery(key, getData);
 
   return <main>
-    <ProductInfo 
-    product={data}
-    loading={isLoading}
-    error={error} 
-    />
+    { data && <ProductInfo 
+      product={data}
+      loading={isLoading}
+      error={error} 
+    />}
+    
+
+  { error && <p style={{textAlign: 'center'}}>{error.message}</p>}
+
   </main>;
 };
 

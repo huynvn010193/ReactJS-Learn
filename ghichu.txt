@@ -1,1 +1,6 @@
 Create ghi chú
++ When a useQuery query fails (the query function throws an error), React Query will automatically retry the query if that query's request has not 
+reached the max number of consecutive retries (defaults to 3) or a function is provided to determine if a retry is allowed.
+-> tự động refresh 3 lần. -> tắt đi ko dùng
+
+đọc thêm Parallel Queries

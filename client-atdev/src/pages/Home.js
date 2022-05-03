@@ -24,15 +24,14 @@ const Home = () => {
   const key = `/products?limit=${limit}&page=${page}&sort=${sort}`;
   const { data, isLoading, error } = useQuery({
     queryKey: key,
-    queryFn: getData
+    queryFn: getData,
   });
 
   const totalPages = useMemo(() => {
     if(!data?.count) return 0;
     // setProducts(() => data.products)
     return Math.ceil(data.count/limit)
-  }, [data?.count, limit]);
- 
+  }, [data?.count, limit]); 
   
   return <main>
     <Sorting sort={sort}
@@ -42,9 +41,11 @@ const Home = () => {
       <Products 
         data={data.products} 
         loading={isLoading} 
-        error={error} 
+        error={error}
       />
     }
+
+    { error && <p style={{textAlign: 'center'}}>{error.message}</p>}
     
     <Pagination totalPages={totalPages}/>
   </main>;
