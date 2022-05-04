@@ -13,7 +13,10 @@ const ProductDetail = () => {
 
   // const { data, loading, error } = useQuery(url);
   const key = `/products/${id}`;
-  const { data, isLoading, error } = useQuery(key, getData);
+  const { data, isLoading, error, refetch } = useQuery(key, getData,{
+    // khi id tồn tại mới chạy.
+    enabled: !!id
+  });
 
   return <main>
     { data && <ProductInfo 

@@ -4,3 +4,5 @@ reached the max number of consecutive retries (defaults to 3) or a function is p
 -> tự động refresh 3 lần. -> tắt đi ko dùng
 
 đọc thêm Parallel Queries
+
+Hàm refetch: khi mà chạy hàm refetch sẽ tự động chạy lại useQuery 1 cách thủ công.

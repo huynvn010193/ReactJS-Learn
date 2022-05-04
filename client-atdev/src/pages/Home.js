@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getData, getProducts } from '../api/productAPI';
 
 import Pagination from '../components/Pagination';
@@ -10,7 +10,7 @@ import useCustomRouter from '../hooks/useCustomRouter';
 import { useQuery } from 'react-query';
 
 const Home = () => {
-  const { refresh, page, limit, sort } = useMyContext()
+  const { refresh: refreshing , page, limit, sort } = useMyContext()
   // const [products, setProducts] = useState([])
 
   const { pushQuery } = useCustomRouter()
@@ -22,7 +22,7 @@ const Home = () => {
   // })
 
   const key = `/products?limit=${limit}&page=${page}&sort=${sort}`;
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: key,
     queryFn: getData,
   });
@@ -31,7 +31,13 @@ const Home = () => {
     if(!data?.count) return 0;
     // setProducts(() => data.products)
     return Math.ceil(data.count/limit)
-  }, [data?.count, limit]); 
+  }, [data?.count, limit]);
+    
+  // khi refreshing thay đổi lập tức chạy lại hàm useQuery
+  useEffect(() => {
+    refetch();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [refreshing])
   
   return <main>
     <Sorting sort={sort}

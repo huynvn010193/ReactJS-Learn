@@ -17,7 +17,6 @@ export const getData = async ({ queryKey }) => {
     return res.data;
   } catch (err) {
     // có 2 loại lỗi, là lỗi lập trình và lỗi hệ thống.
-    console.log({err});
     handleError(err);
   }
   
