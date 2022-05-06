@@ -22,11 +22,13 @@ const Home = () => {
   // })
 
   const key = `/products?limit=${limit}&page=${page}&sort=${sort}`;
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isFetching, error, refetch, isPreviousData } = useQuery({
     queryKey: key,
     queryFn: getData,
+    keepPreviousData: true
   });
 
+  // Phân trang.
   const totalPages = useMemo(() => {
     if(!data?.count) return 0;
     // setProducts(() => data.products)
@@ -37,7 +39,9 @@ const Home = () => {
   useEffect(() => {
     refetch();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshing])
+  }, [refreshing]);
+
+  console.log("data",data);
   
   return <main>
     <Sorting sort={sort}
@@ -46,10 +50,12 @@ const Home = () => {
     {data && 
       <Products 
         data={data.products} 
-        loading={isLoading} 
+        loading={isFetching} 
         error={error}
       />
     }
+
+  { isFetching && isPreviousData && <h2 style={{textAlign: 'center'}}>Loading...</h2> }
 
     { error && <p style={{textAlign: 'center'}}>{error.message}</p>}
     
