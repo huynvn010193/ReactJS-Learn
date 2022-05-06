@@ -12,4 +12,6 @@ keepPreviousData: khi bật sẽ mất loading => dùng fetching -> đọc thêm
 loading: là khi data reset thành undefined
 fetching : khi nào gửi refresh đến server để fetching dc dữ liệu
 
-isPreviousData: dùng với isFecting khi click lại sẽ ko hiện loadding. 
+isPreviousData: dùng với isFecting khi click lại sẽ ko hiện loadding.
+StaleTime : khoảng thời gian dữ liệu làm mới
+React-query mặc định lưu cache 5p -> dùng option cache time sẽ giúp giải quyết điều đó.

@@ -25,7 +25,8 @@ const Home = () => {
   const { data, isFetching, error, refetch, isPreviousData } = useQuery({
     queryKey: key,
     queryFn: getData,
-    keepPreviousData: true
+    keepPreviousData: true,
+    // cacheTime: 60 * 1000
   });
 
   // Phân trang.
@@ -36,10 +37,10 @@ const Home = () => {
   }, [data?.count, limit]);
     
   // khi refreshing thay đổi lập tức chạy lại hàm useQuery
-  useEffect(() => {
-    refetch();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshing]);
+  // useEffect(() => {
+  //   refetch();
+  // // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [refreshing]);
 
   console.log("data",data);
   

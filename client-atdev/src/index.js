@@ -17,6 +17,9 @@ const queryClient = new QueryClient({
     queries: {
       retry: false,
       refetchOnWindowFocus: false,
+
+      // sau 5s mới gửi request đến server
+      staleTime: 5000
     }
   }
 });
