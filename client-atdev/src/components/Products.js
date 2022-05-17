@@ -3,15 +3,13 @@ import ProductCard from './ProductCard';
 
 const Products = ({ data }) => {
 
-  return <section>
-    <div className='products'>
+  return <>
       {
         data.map(product => (
           <ProductCard key={product._id} product={product} />
         ))
       }
-    </div>
-  </section>;
+  </>;
 };
 
 export default Products;

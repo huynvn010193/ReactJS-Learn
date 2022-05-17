@@ -48,13 +48,15 @@ const Home = () => {
     <Sorting sort={sort}
     calback={(sort) => pushQuery({page, sort})}
      />
-    {data && 
-      <Products 
-        data={data.products} 
-        loading={isFetching} 
-        error={error}
-      />
-    }
+    <div className='products'>
+      {data && 
+        <Products 
+          data={data.products} 
+          loading={isFetching} 
+          error={error}
+        />
+      }
+    </div>
 
   { isFetching && isPreviousData && <h2 style={{textAlign: 'center'}}>Loading...</h2> }
 

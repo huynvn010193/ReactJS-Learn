@@ -19,7 +19,16 @@ export const getData = async ({ queryKey }) => {
     // có 2 loại lỗi, là lỗi lập trình và lỗi hệ thống.
     handleError(err);
   }
-  
+}
+
+export const getInfiniteData = async ({ queryKey, pageParam = 1 }) => { 
+  // console.log(`url: ${queryKey[0]}&page=${pageParams}`);
+  try {
+    const res = await axios.get(`${queryKey[0]}&page=${pageParam}&limit=2`);
+    return res.data;
+  } catch (e) {
+    handleError(e);
+  }
 }
 
 export const getProducts = (limit, page, sort) => {

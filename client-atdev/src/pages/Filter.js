@@ -43,11 +43,13 @@ const Filter = () => {
     <Sorting sort={sort}
     calback={(sort) => pushQuery({sort})}
      />
-    <Products 
-    data={products} 
-    loading={loading} 
-    error={error} 
-    />
+    <div className='products'>
+      <Products 
+      data={products} 
+      loading={loading} 
+      error={error} 
+      />
+    </div>
 
     { btnRender() }
   </div>;
