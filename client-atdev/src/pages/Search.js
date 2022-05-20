@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { getInfiniteData, searchProducts } from '../api/productAPI';
 import Products from '../components/Products';
 import Sorting from '../components/Sorting';
 import { useMyContext } from '../context/store';
 // import useCustomRouter from '../hooks/useCustomRouter';
 // import useInfinityQuery from '../hooks/useInfinityQuery';
-import { useInfiniteQuery } from 'react-query';
 
 
 const Search = () => {
@@ -41,6 +41,9 @@ const Search = () => {
   // }, [value, sort])
 
   const key = `/products?search=${value}&sort=${sort}`;
+
+  const queryClient = useQueryClient();
+  queryClient.setQueryData('keys', { k1: '', k2: key });
   
   const {
     data,
