@@ -19,3 +19,9 @@ React-query mặc định lưu cache 5p -> dùng option cache time sẽ giúp gi
 isFetchingNextPage khác isFetching : ở lần đầu.
 isFetching : khi hàm tìm nạp dữ liệu chạy thì dc kích hoạt.
 isFetchingNextPage : được kích hoạt khi hàm fetchNextPage() kích hoạt.
+
+======= React - 200 =====
+demo GrapQL :https://anilist.co/graphiql?query=%7B%0A%20%20Page(page%3A%202%2C%20perPage%3A%202)%20%7B%0A%20%20%20%20media%20%7B%0A%20%20%20%20%20%20id%0A%20%20%20%20%20%20siteUrl%0A%20%20%20%20%20%20title%20%7B%0A%20%20%20%20%20%20%20%20english%0A%20%20%20%20%20%20%20%20native%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20description%0A%20%20%20%20%20%20seasonYear%0A%20%20%20%20%7D%0A%20%20%7D%0A%20%20Media(id%3A6)%7B%0A%20%20%20%20id%0A%20%20%20%20title%20%7B%0A%20%20%20%20%20%20english%0A%20%20%20%20%7D%0A%20%20%7D%0A%7D
+Tìm hiểu Supspene và lazyComponent
+
+1:04:32 -> GrapQL
