@@ -5,6 +5,7 @@ import { getInfiniteData, searchProducts } from '../api/productAPI';
 import Products from '../components/Products';
 import Sorting from '../components/Sorting';
 import { useMyContext } from '../context/store';
+import useInview from '../hooks/useInView';
 // import useCustomRouter from '../hooks/useCustomRouter';
 // import useInfinityQuery from '../hooks/useInfinityQuery';
 
@@ -45,6 +46,8 @@ const Search = () => {
   const queryClient = useQueryClient();
   queryClient.setQueryData('keys', { k1: '', k2: key });
   
+  const { inview, ref } = useInview();
+
   const {
     data,
     error,
@@ -65,6 +68,10 @@ const Search = () => {
     }
   });
 
+  useEffect(() => {
+    console.log(inview);
+  },[inview])
+
   return <div>
     <Sorting sort={sort} />
     <div className='products'>
@@ -83,6 +90,7 @@ const Search = () => {
       className="btn-load_more"
       onClick={() => fetchNextPage()}
       disabled={!hasNextPage || isFetchingNextPage}
+      ref={ref}
       >
         Load more
       </button>
