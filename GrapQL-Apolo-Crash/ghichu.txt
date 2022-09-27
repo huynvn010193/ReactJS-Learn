@@ -1,0 +1,1 @@
+BE: npm i express apolo-server-express graphql nodemon mongoose
