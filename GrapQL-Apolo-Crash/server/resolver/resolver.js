@@ -1,35 +1,19 @@
+const { books, authors } = require('../data/static');
+
 const resolvers = {
   Query: {
-    books: () => [
-      {
-        id: 1,
-        name: "De men",
-        genre: "Phieu Luu",
-      },
-      {
-        id: 2,
-        name: "Lam giau khong kho",
-        genre: "Giao Duc",
-      },
-    ],
-    authors: () => [
-      {
-        id: 1,
-        name: "Ngo Tat To",
-        age: 127,
-      },
-      {
-        id: 2,
-        name: "Nam Cao",
-        age: 106,
-      },
-      {
-        id: 3,
-        name: "Vu Trong Phung",
-        age: 109,
-      },
-    ],
+    books: () => books,
+    book: (parent, args) => books.find(book => book.id == args.id),
+    authors: () => authors,
+    author: (parent, args) => authors.find(author => author.id == args.id),
   },
+  // bất cứ khi nào nhìn thấy type query Book vào trường author ->
+  Book : {
+    author: (parent, args) => authors.find(author => author.id === parent.authorId)
+  },
+  Author : {
+    books: (parent, args) => books.filter(book => book.authorId === parent.id)
+  }
 };
 
 module.exports = resolvers;
