@@ -9,6 +9,9 @@ const mongoose = require("mongoose");
 const typeDefs = require("./schema/shema");
 const resolvers = require("./resolver/resolver");
 
+// Load db method
+const mongoDataMethods = require("./data/db");
+
 // connect to MongoDB
 const connectDB = async () => {
   try {
@@ -30,6 +33,7 @@ async function startServer() {
   server = new ApolloServer({
     typeDefs,
     resolvers,
+    context: () => ({ mongoDataMethods }),
     plugins: [ApolloServerPluginLandingPageGraphQLPlayground()],
   });
   await server.start();

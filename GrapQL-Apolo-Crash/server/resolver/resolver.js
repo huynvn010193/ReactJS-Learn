@@ -5,7 +5,7 @@ const Book = require('../models/Book');
 const resolvers = {
   // QUERY
   Query: {
-    books: () => books,
+    books: async (parent, args, { mongoDataMethods }) => await mongoDataMethods.getAllBooks(),
     book: (parent, args) => books.find(book => book.id == args.id),
     authors: () => authors,
     author: (parent, args) => authors.find(author => author.id == args.id),
@@ -20,14 +20,8 @@ const resolvers = {
 
   // MUTATION
   Mutation: {
-    createAuthor: async (parent, args) => {
-      const newAuthor = new Author(args);
-      return newAuthor.save();
-    },
-    createBook: (parent, args) => {
-      const newBook = new Book(args);
-      return newBook.save();
-    },
+    createAuthor: async (parent, args, { mongoDataMethods }) =>  mongoDataMethods.createAuthor(args),
+    createBook: (parent, args, { mongoDataMethods }) => mongoDataMethods.createBook(args)
   }
 };
 
