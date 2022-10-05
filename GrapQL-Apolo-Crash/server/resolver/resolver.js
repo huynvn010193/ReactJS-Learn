@@ -1,21 +1,18 @@
-const { books, authors } = require('../data/static');
-const Author = require('../models/Author');
-const Book = require('../models/Book');
-
 const resolvers = {
   // QUERY
   Query: {
     books: async (parent, args, { mongoDataMethods }) => await mongoDataMethods.getAllBooks(),
-    book: (parent, args) => books.find(book => book.id == args.id),
-    authors: () => authors,
-    author: (parent, args) => authors.find(author => author.id == args.id),
+    book: async (parent, { id }, { mongoDataMethods }) => await mongoDataMethods.getBookById(id),
+    authors: async (parent, args, { mongoDataMethods }) => await mongoDataMethods.getAllAuthor(),
+    author: async (parent, { id }, { mongoDataMethods }) => await mongoDataMethods.getAuthorById(id),
   },
   // bất cứ khi nào nhìn thấy type query Book vào trường author ->
   Book : {
-    author: (parent, args) => authors.find(author => author.id == parent.authorId)
+    author: async ({ authorId }, args, { mongoDataMethods }) => 
+      await mongoDataMethods.getAuthorById(authorId),
   },
   Author : {
-    books: (parent, args) => books.filter(book => book.authorId == parent.id)
+    books: async ({ id }, args, { mongoDataMethods }) => await mongoDataMethods.getAllBooks({ authorId: id }),
   },
 
   // MUTATION
