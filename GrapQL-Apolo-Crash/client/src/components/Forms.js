@@ -1,28 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Row from 'react-bootstrap/Row';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
+import BookForm from './BookForm';
 
-const Forms = () => {
+const Forms = () => { 
+  
+
   return (
     <Row>
       <Col>
-        <Form>
-          <Form.Group>
-            <Form.Control type="text" placeholder="Book name" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control type="text" placeholder="Book genre" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control as="select" defaultValue="Select author">
-              <option disabled>Select auhtor</option>
-            </Form.Control>
-          </Form.Group>
-          <Button className="float-right" variant='info' type="submit">Add book</Button>
-        </Form>
+        <BookForm />
       </Col>
       <Col>
         <Form>

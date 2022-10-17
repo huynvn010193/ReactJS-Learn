@@ -7,15 +7,17 @@ const BookDetails = ({ bookId }) => {
   const { loading, error, data } = useQuery(getSingleBook, {
     variables: { 
       id: bookId
-    }
+    },
+    skip: bookId === null
   });
 
   if(loading) return <p>Loading book details...</p>;
-  if(bookId !== null && error) {
+  if(error) {
     return <p>Error loading book details!</p>
   }
 
-  const book = !loading && !error ? data.book : null;
+  // Khi không có bookId -> gán book = null. 
+  const book = bookId !== null ? data.book : null;
 
 
   return (

@@ -1,4 +1,4 @@
 BE: npm i express apolo-server-express graphql nodemon mongoose
 GrapQL : có thể giúp truy suất dữ liệu vô tận
 
-rafce
+rafce -- short code create component.
