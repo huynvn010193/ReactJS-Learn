@@ -35,8 +35,6 @@ const BookDetails = ({ bookId }) => {
                 {book.author.books.map(
                   item => <li key={item.id}>{item.name}</li>
                 )}
-                <li>Ky nghe lay tay</li>
-                <li>So do</li>
               </ul>
             </Fragment>
           ) 
