@@ -25,3 +25,7 @@ demo GrapQL :https://anilist.co/graphiql?query=%7B%0A%20%20Page(page%3A%202%2C%2
 Tìm hiểu Supspene và lazyComponent
 
 1:04:32 -> GrapQL
+
+==== React-query =====
+https://tanstack.com/query/latest/docs/react/guides/query-keys
+https://tanstack.com/query/latest/docs/react/guides/query-functions
