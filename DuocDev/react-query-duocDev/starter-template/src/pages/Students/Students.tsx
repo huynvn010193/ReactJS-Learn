@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
-import { getStudents } from 'apis/students.api'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { deleteStudent, getStudents } from 'apis/students.api'
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useQueryString } from 'utils/utils'
 import classNames from 'classnames'
+import { toast } from 'react-toastify'
 
 const LIMIT = 10
 export default function Students() {
@@ -11,13 +12,24 @@ export default function Students() {
   const page = Number(queryString.page) || 1
 
   // Khi page thay đổi thì trigger getStudents : cơ chế so sánh deep_comparation
-  const { data, isLoading } = useQuery({
+  const studentsQuery = useQuery({
     queryKey: ['students', page],
     queryFn: () => getStudents(page, LIMIT),
     keepPreviousData: true // Giữ lại data trước đó cho đến khi fetch xong data mới
   })
-  const totalStudentsCount = Number(data?.headers['x-total-count'] || 0)
+  const totalStudentsCount = Number(studentsQuery.data?.headers['x-total-count'] || 0)
   const totalPage = Math.ceil(totalStudentsCount / LIMIT)
+
+  const deleteStudentMutation = useMutation({
+    mutationFn: (id: number | string) => deleteStudent(id),
+    onSuccess: (_, id) => {
+      toast.success(`Xoá thành công student với id là ${id}`)
+    }
+  })
+
+  const handleDelete = (id: number) => {
+    deleteStudentMutation.mutate(id)
+  }
 
   return (
     <div>
@@ -31,7 +43,7 @@ export default function Students() {
           Add Student
         </Link>
       </div>
-      {isLoading && (
+      {studentsQuery.isLoading && (
         <div role='status' className='mt-6 animate-pulse'>
           <div className='mb-4 h-4  rounded bg-gray-200 dark:bg-gray-700' />
           <div className='mb-2.5 h-10  rounded bg-gray-200 dark:bg-gray-700' />
@@ -49,7 +61,7 @@ export default function Students() {
           <span className='sr-only'>Loading...</span>
         </div>
       )}
-      {!isLoading && (
+      {!studentsQuery.isLoading && (
         <Fragment>
           <div className='relative mt-6 overflow-x-auto shadow-md sm:rounded-lg'>
             <table className='w-full text-left text-sm text-gray-500 dark:text-gray-400'>
@@ -73,7 +85,7 @@ export default function Students() {
                 </tr>
               </thead>
               <tbody>
-                {data?.data.map((student) => (
+                {studentsQuery.data?.data.map((student) => (
                   <tr
                     key={student.id}
                     className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
@@ -88,12 +100,17 @@ export default function Students() {
                     <td className='py-4 px-6'>{student.email}</td>
                     <td className='py-4 px-6 text-right'>
                       <Link
-                        to='/students/1'
+                        to={`/students/${student.id}`}
                         className='mr-5 font-medium text-blue-600 hover:underline dark:text-blue-500'
                       >
                         Edit
                       </Link>
-                      <button className='font-medium text-red-600 dark:text-red-500'>Delete</button>
+                      <button
+                        className='font-medium text-red-600 dark:text-red-500'
+                        onClick={() => handleDelete(student.id)}
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}
