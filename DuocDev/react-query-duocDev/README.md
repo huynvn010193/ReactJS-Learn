@@ -116,3 +116,5 @@ function C() {
 ======
 data có nhưng vẫn fetch lại API
 https://flowbite.com/ : trang web style của tailwind
+
+Khi được gọi mà ko có staleTime thì data sẽ được koi là cũ => useQuery gọi thì sẽ gọi lại thôi.

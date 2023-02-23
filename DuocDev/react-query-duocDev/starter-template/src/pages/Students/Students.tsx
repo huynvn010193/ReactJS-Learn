@@ -1,5 +1,5 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { deleteStudent, getStudents } from 'apis/students.api'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { deleteStudent, getStudent, getStudents } from 'apis/students.api'
 import { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useQueryString } from 'utils/utils'
@@ -10,6 +10,7 @@ const LIMIT = 10
 export default function Students() {
   const queryString: { page?: string } = useQueryString()
   const page = Number(queryString.page) || 1
+  const queryClient = useQueryClient()
 
   // Khi page thay đổi thì trigger getStudents : cơ chế so sánh deep_comparation
   const studentsQuery = useQuery({
@@ -17,6 +18,7 @@ export default function Students() {
     queryFn: () => getStudents(page, LIMIT),
     keepPreviousData: true // Giữ lại data trước đó cho đến khi fetch xong data mới
   })
+
   const totalStudentsCount = Number(studentsQuery.data?.headers['x-total-count'] || 0)
   const totalPage = Math.ceil(totalStudentsCount / LIMIT)
 
@@ -24,11 +26,20 @@ export default function Students() {
     mutationFn: (id: number | string) => deleteStudent(id),
     onSuccess: (_, id) => {
       toast.success(`Xoá thành công student với id là ${id}`)
+      queryClient.invalidateQueries({ queryKey: ['students', page], exact: true })
     }
   })
 
   const handleDelete = (id: number) => {
     deleteStudentMutation.mutate(id)
+  }
+
+  // Khi người dùng hover vào dữ liệu sẽ fetch API luôn
+  const handlePrefetchStudent = (id: number) => {
+    queryClient.prefetchQuery(['student', String(id)], {
+      queryFn: () => getStudent(id),
+      staleTime: 10 * 1000
+    })
   }
 
   return (
@@ -89,6 +100,7 @@ export default function Students() {
                   <tr
                     key={student.id}
                     className='border-b bg-white hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-600'
+                    onMouseEnter={() => handlePrefetchStudent(student.id)}
                   >
                     <td className='py-4 px-6'>{student.id}</td>
                     <td className='py-4 px-6'>
