@@ -15,7 +15,7 @@ export default function Students() {
   // Khi page thay đổi thì trigger getStudents : cơ chế so sánh deep_comparation
   const studentsQuery = useQuery({
     queryKey: ['students', page],
-    queryFn: () => getStudents(page, LIMIT),
+    queryFn: ({ signal }) => getStudents(page, LIMIT, signal),
     keepPreviousData: true // Giữ lại data trước đó cho đến khi fetch xong data mới
   })
 
@@ -36,15 +36,52 @@ export default function Students() {
 
   // Khi người dùng hover vào dữ liệu sẽ fetch API luôn
   const handlePrefetchStudent = (id: number) => {
-    queryClient.prefetchQuery(['student', String(id)], {
+    // queryClient.prefetchQuery(['student', String(id)], {
+    //   queryFn: () => getStudent(id),
+    //   staleTime: 10 * 1000
+    // })
+  }
+
+  const fetchStudent = (second: number) => {
+    const id = '14'
+    queryClient.prefetchQuery(['student', id], {
       queryFn: () => getStudent(id),
-      staleTime: 10 * 1000
+      staleTime: second * 1000
     })
+  }
+
+  const refetchStudents = () => {
+    studentsQuery.refetch()
+  }
+
+  // Cancel call API
+  const cancelRequestStudents = () => {
+    queryClient.cancelQueries({ queryKey: ['students', page] })
   }
 
   return (
     <div>
       <h1 className='text-lg'>Students</h1>
+      <div>
+        <button className='mt-6 rounded bg-blue-500 px-5 py-2.5 text-white' onClick={() => fetchStudent(10)}>
+          Click 10s
+        </button>
+      </div>
+      <div>
+        <button className='mt-6 rounded bg-blue-500 px-5 py-2.5 text-white' onClick={() => fetchStudent(2)}>
+          Click 2s
+        </button>
+      </div>
+      <div>
+        <button className='mt-6 rounded bg-pink-700 px-5 py-2.5 text-white' onClick={refetchStudents}>
+          Refetch Students
+        </button>
+      </div>
+      <div>
+        <button className='mt-6 rounded bg-pink-700 px-5 py-2.5 text-white' onClick={cancelRequestStudents}>
+          Cancel request Students
+        </button>
+      </div>
       <div className='mt-6'>
         <Link
           className='mt-6 rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium 
