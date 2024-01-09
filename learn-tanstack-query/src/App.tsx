@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 
 function App() {
   const urlList = [
@@ -9,6 +9,10 @@ function App() {
     {
       path: "/profile",
       label: "Profile",
+    },
+    {
+      path: "/txn-details",
+      label: "Transaction Details",
     },
   ];
   return (

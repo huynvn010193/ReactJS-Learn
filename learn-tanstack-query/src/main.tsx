@@ -5,6 +5,7 @@ import { createRoot } from "react-dom/client";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./app";
 import Profile from "./pages/profile";
+import TnxDetails from "./pages/tnx-details";
 // import "./index.css";
 
 const queryClient = new QueryClient();
@@ -15,7 +16,16 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    children: [{ path: "profile", element: <Profile /> }],
+    children: [
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "txn-details",
+        element: <TnxDetails />,
+      },
+    ],
   },
 ]);
 
